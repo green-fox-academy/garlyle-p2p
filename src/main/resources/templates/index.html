@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>P2P Chat</title>
 </head>
 <body>
+    <p th:text="${error}"/>
     <h1>Peer to Peer Chat program</h1>
+    <div th:if="${user != null}">
+        <form th:action="@{/changeuser}" method="POST" th:object="${user}">
+            <span>Your username:</span>
+            <input type="hidden" th:field="*{id}"/>
+            <input type="text" name="username" th:field="*{username}"/>
+            <input type="submit" value="update"/>
+        </form>
+    </div>
 </body>
 </html>
