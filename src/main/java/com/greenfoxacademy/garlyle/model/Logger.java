@@ -14,7 +14,18 @@ public class Logger {
   }
 
   public static void info(HttpServletRequest request) {
-    System.out.println(getDate() + " INFO Request " + getDetails(request));
+    String logLevel = System.getenv("CHAT_APP_LOGLEVEL");
+    if (logLevel != null) {
+      System.out.println(getDate() + " INFO Request " + getDetails(request));
+    }
+  }
 
+  public static void error(String message) {
+    String logLevel = System.getenv("CHAT_APP_LOGLEVEL");
+    if (logLevel != null) {
+      if (logLevel.contains("ERROR")) {
+        System.err.println(getDate() + " ERROR: " + message);
+      }
+    }
   }
 }
