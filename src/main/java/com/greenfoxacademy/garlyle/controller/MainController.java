@@ -1,13 +1,14 @@
 package com.greenfoxacademy.garlyle.controller;
 
 import com.greenfoxacademy.garlyle.model.Logger;
+import com.greenfoxacademy.garlyle.model.Message;
 import com.greenfoxacademy.garlyle.model.User;
+import com.greenfoxacademy.garlyle.repository.MessageRepository;
 import com.greenfoxacademy.garlyle.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.List;
 public class MainController {
   @Autowired
   UserRepository userRepository;
+
+  @Autowired
+  MessageRepository messageRepository;
 
   @ExceptionHandler
   public void error(Exception ex) {
@@ -27,48 +31,56 @@ public class MainController {
     Logger.info(request);
   }
 
-  @RequestMapping("/")
-  public String index(@RequestParam(required = false) String username, Model model) {
-    if (username != null) {
-      if (userRepository.findByUsername(username).isEmpty()) {
-        return "redirect:/register";
-      } else {
-        model.addAttribute("user", userRepository.findByUsername(username).get(0));
-      }
+  @GetMapping("/")
+  public String index(Model model) {
+    List<User> userList = userRepository.findAll();
+    if (userList.isEmpty()) {
+      return "redirect:/enter";
+    }
+    model.addAttribute("user", userList.get(0));
+
+    List<Message> messageList = messageRepository.findAllByOrderByPostedAsc();
+    if (messageList.isEmpty()) {
+      Message msg = new Message("App", "Hi there! Submit your message using the send button!");
+      messageRepository.save(msg);
+      messageList.add(msg);
+    }
+    model.addAttribute("messages", messageList);
+
+    return "index";
+  }
+
+  @PostMapping("/")
+  public String changeUser(@ModelAttribute User user, Model model) {
+    if (user.getUsername().isEmpty()) {
+      model.addAttribute("error", "The username field is empty");
+    } else {
+      userRepository.save(user);
     }
     return "index";
   }
 
-  @RequestMapping("/register")
-  public String register() {
-    return "register";
+  @PostMapping("/postMessage")
+  public String sendMessage(String username, String message) {
+    if (!message.isEmpty()) {
+      Message msg = new Message(username, message);
+      messageRepository.save(msg);
+    }
+    return "redirect:/";
   }
 
-  @PostMapping("/newuser")
-  public String addNewUser(String username, RedirectAttributes attr, Model model) {
+  @GetMapping("/enter")
+  public String register() {
+    return "enter";
+  }
+
+  @PostMapping("/enter")
+  public String addNewUser(String username, Model model) {
     if (username.isEmpty()) {
       model.addAttribute("error", "The username field is empty");
-      return "register";
+      return "enter";
     } else {
-      if (userRepository.findByUsername(username).isEmpty()) {
-        User user = new User(username);
-        userRepository.save(user);
-        attr.addAttribute("username", user.getUsername());
-      } else {
-        attr.addAttribute("username", username);
-      }
-      return "redirect:/";
-    }
-  }
-
-  @PostMapping("/changeuser")
-  public String changeUser(@ModelAttribute User user, RedirectAttributes attr, Model model) {
-    if (user.getUsername().isEmpty()) {
-      model.addAttribute("error", "The username field is empty");
-      return "index";
-    } else {
-      userRepository.save(user);
-      attr.addAttribute("username", user.getUsername());
+      userRepository.save(new User(username));
       return "redirect:/";
     }
   }
