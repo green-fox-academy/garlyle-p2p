@@ -10,7 +10,13 @@ public class MessageDispatch {
   public static Status post(MessageDispatch msg) {
     RestTemplate template = new RestTemplate();
     String url = System.getenv("CHAT_APP_PEER_ADDRESS") + "api/message/receive";
-    Status status = template.postForObject(url, msg, Status.class);
+    Status status = new Status();
+    try {
+      status = template.postForObject(url, msg, Status.class);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      System.out.println(e.getStackTrace());
+    }
 
     return status;
   }
