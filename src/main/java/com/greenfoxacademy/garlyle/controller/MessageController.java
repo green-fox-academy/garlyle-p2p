@@ -49,7 +49,5 @@ public class MessageController {
     } else {
       return new ResponseEntity<>(new Status(missing), HttpStatus.BAD_REQUEST);
     }
-
-
   }
 }
