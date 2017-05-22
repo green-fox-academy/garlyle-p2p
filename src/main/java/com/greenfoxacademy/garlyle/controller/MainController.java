@@ -1,8 +1,6 @@
 package com.greenfoxacademy.garlyle.controller;
 
-import com.greenfoxacademy.garlyle.model.Logger;
-import com.greenfoxacademy.garlyle.model.Message;
-import com.greenfoxacademy.garlyle.model.User;
+import com.greenfoxacademy.garlyle.model.*;
 import com.greenfoxacademy.garlyle.repository.MessageRepository;
 import com.greenfoxacademy.garlyle.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +37,7 @@ public class MainController {
     }
     model.addAttribute("user", userList.get(0));
 
-    List<Message> messageList = messageRepository.findAllByOrderByPostedAsc();
+    List<Message> messageList = messageRepository.findAllByOrderByTimestampAsc();
     if (messageList.isEmpty()) {
       Message msg = new Message("App", "Hi there! Submit your message using the send button!");
       messageRepository.save(msg);

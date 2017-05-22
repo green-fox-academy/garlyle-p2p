@@ -1,5 +1,6 @@
 package com.greenfoxacademy.garlyle.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Getter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Message {
   final static long ID_LOWEST = 1000000;
   final static long ID_HIGHEST = 9999999;
@@ -17,14 +19,14 @@ public class Message {
   @Id
   long id;
   String username;
-  String message;
-  Date posted;
+  String text;
+  Date timestamp;
 
-  public Message(String username, String message) {
+  public Message(String username, String text) {
     id = (long)(Math.random() * (ID_HIGHEST - ID_LOWEST)) + ID_LOWEST;
     this.username = username;
-    this.message = message;
-    posted = new Date();
+    this.text = text;
+    timestamp = new Date();
   }
 
 }

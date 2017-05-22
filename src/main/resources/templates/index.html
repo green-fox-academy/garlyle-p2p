@@ -16,7 +16,7 @@
         <ul>
             <li th:each="m : ${messages}">
                 <p th:text="${m.username}"></p>
-                <p th:text="${m.message}"></p>
+                <p th:text="${m.text}"></p>
             </li>
         </ul>
         <form th:action="@{/postMessage}" method="POST">
