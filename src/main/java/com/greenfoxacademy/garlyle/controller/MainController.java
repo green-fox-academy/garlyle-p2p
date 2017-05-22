@@ -63,6 +63,7 @@ public class MainController {
     if (!message.isEmpty()) {
       Message msg = new Message(username, message);
       messageRepository.save(msg);
+      MessageDispatch.post(new MessageDispatch(msg, new Client(System.getenv("CHAT_APP_UNIQUE_ID"))));
     }
     return "redirect:/";
   }
