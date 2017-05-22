@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import java.util.Date;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -20,13 +20,13 @@ public class Message {
   long id;
   String username;
   String text;
-  Date timestamp;
+  Timestamp timestamp;
 
   public Message(String username, String text) {
     id = (long)(Math.random() * (ID_HIGHEST - ID_LOWEST)) + ID_LOWEST;
     this.username = username;
     this.text = text;
-    timestamp = new Date();
+    timestamp = new Timestamp(System.currentTimeMillis());
   }
 
 }
