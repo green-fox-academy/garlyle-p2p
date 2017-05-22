@@ -43,8 +43,10 @@ public class MessageController {
       }
     }
     if (missing.isEmpty()) {
-      repository.save(received.getMessage());
-      MessageDispatch.post(received);
+      if (!received.getClient().getId().equals(System.getenv("CHAT_APP_UNIQUE_ID"))) {
+        repository.save(received.getMessage());
+        MessageDispatch.post(received);
+      }
       return new ResponseEntity<>(new Status("ok"), HttpStatus.OK);
     } else {
       return new ResponseEntity<>(new Status(missing), HttpStatus.BAD_REQUEST);
