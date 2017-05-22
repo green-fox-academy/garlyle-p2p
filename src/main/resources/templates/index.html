@@ -3,26 +3,29 @@
     <head>
         <meta charset="UTF-8"/>
         <title>P2P Chat</title>
+        <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
     </head>
     <body>
-        <p th:text="${error}"/>
-        <h1>Peer to Peer Chat program</h1>
-        <form th:action="@{/}" method="POST" th:object="${user}">
+        <div class="alert alert-danger" role="alert" th:text="${error}"/>
+        <h1 class="text-center">Peer to Peer Chat program</h1>
+        <form th:action="@{/}" method="POST" th:object="${user}" class="center-block col-md-6">
             <span>Your username:</span>
             <input type="hidden" th:field="*{id}"/>
-            <input type="text" name="username" th:field="*{username}"/>
-            <input type="submit" value="update"/>
+            <input type="text" name="username" th:field="*{username}" class="form-control"/>
+            <input type="submit" value="update" class="btn btn-info"/>
         </form>
         <ul>
-            <li th:each="m : ${messages}">
-                <p th:text="${m.username}"></p>
-                <p th:text="${m.text}"></p>
+            <li th:each="m : ${messages}" class="bg-danger">
+                <span th:text="${m.username}"></span>
+                <span th:text="${m.text}" class="label label-default"></span>
             </li>
         </ul>
         <form th:action="@{/postMessage}" method="POST">
             <input type="hidden" name="username" th:value="${user.username}"/>
-            <input type="text" name="message" th:value="${message}"/>
-            <input type="submit" value="Send"/>
+            <input type="text" name="message" th:value="${message}" class="form-control"/>
+            <input type="submit" value="Send" class="btn btn-primary"/>
         </form>
+        <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
     </body>
 </html>
