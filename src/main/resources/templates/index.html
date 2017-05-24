@@ -5,26 +5,50 @@
         <title>P2P Chat</title>
         <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
     </head>
-    <body>
-        <div class="alert alert-danger" role="alert" th:text="${error}"/>
+    <body class="container">
+        <div class="alert alert-danger" role="alert" th:if="${#strings.isEmpty(error) == false}" th:text="${error}"/>
         <h1 class="text-center">Peer to Peer Chat program</h1>
-        <form th:action="@{/}" method="POST" th:object="${user}" class="center-block col-md-6">
-            <span>Your username:</span>
-            <input type="hidden" th:field="*{id}"/>
-            <input type="text" name="username" th:field="*{username}" class="form-control"/>
-            <input type="submit" value="update" class="btn btn-info"/>
-        </form>
-        <ul>
-            <li th:each="m : ${messages}" class="bg-danger">
-                <span th:text="${m.username}"></span>
-                <span th:text="${m.text}" class="label label-default"></span>
-            </li>
-        </ul>
-        <form th:action="@{/postMessage}" method="POST">
-            <input type="hidden" name="username" th:value="${user.username}"/>
-            <input type="text" name="message" th:value="${message}" class="form-control"/>
-            <input type="submit" value="Send" class="btn btn-primary"/>
-        </form>
+        <div class="panel panel-default">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="panel-heading">User</div>
+                    <div class="panel-body">
+                        <form th:action="@{/}" method="POST" th:object="${user}" class="form-inline">
+                            <label>Your username:</label>
+                            <input type="hidden" th:field="*{id}"/>
+                            <input type="text" name="username" th:field="*{username}" class="form-control"/>
+                            <input type="submit" value="update" class="btn btn-info"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Chat</div>
+                    <div class="panel-body">
+                        <ul>
+                            <li th:each="m : ${messages}">
+                                <h4>
+                                    <span th:text="${m.username}"></span>
+                                    <span th:text="${m.text}" class="label label-default"></span>
+                                </h4>
+                            </li>
+                        </ul>
+                        <form th:action="@{/postMessage}" method="POST">
+                            <input type="hidden" name="username" th:value="${user.username}"/>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <input type="text" name="message" id="message" th:value="${message}" class="form-control"/>
+                            </div>
+                            <input type="submit" value="Send" class="btn btn-primary"/>
+                            <a href="#" class="btn btn-default">Refresh</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <script th:src="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
         <script th:src="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
     </body>
