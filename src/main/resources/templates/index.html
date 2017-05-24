@@ -4,6 +4,11 @@
         <meta charset="UTF-8"/>
         <title>P2P Chat</title>
         <link th:href="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"/>
+        <script>
+            setTimeout(function(){
+                window.location.reload(true);
+            }, 10000);
+        </script>
     </head>
     <body class="container">
         <div class="alert alert-danger" role="alert" th:if="${#strings.isEmpty(error) == false}" th:text="${error}"/>
