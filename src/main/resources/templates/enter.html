@@ -4,13 +4,21 @@
         <meta charset="UTF-8"/>
         <title>Register User</title>
     </head>
-    <body>
-        <p th:text="${error}"/>
-        <h1>Enter</h1>
-        <form th:action="@{/enter}" method="POST">
-            <span>Username:</span>
-            <input type="text" name="username" th:value="${username}"/>
-            <input type="submit" value="Enter"/>
-        </form>
+    <body class="container">
+        <div class="alert alert-danger" role="alert" th:if="${#strings.isEmpty(error) == false}" th:text="${error}"/>
+        <div class="panel panel-default">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel-heading">User</div>
+                    <div class="panel-body">
+                        <form th:action="@{/enter}" method="POST" class="form-inline">
+                            <label>Give me your username</label>
+                            <input type="text" name="username" th:value="${username}"/>
+                            <input type="submit" value="Enter"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
