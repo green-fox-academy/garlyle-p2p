@@ -13,9 +13,9 @@
     <body class="container">
         <div class="alert alert-danger" role="alert" th:if="${#strings.isEmpty(error) == false}" th:text="${error}"/>
         <h1 class="text-center">Peer to Peer Chat program</h1>
-        <div class="panel panel-default">
-            <div class="row">
-                <div class="col-md-5">
+        <div class="row">
+            <div class="col-md-5">
+                <div class="panel panel-default">
                     <div class="panel-heading">User</div>
                     <div class="panel-body">
                         <form th:action="@{/}" method="POST" th:object="${user}" class="form-inline">
